@@ -88,3 +88,19 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 86 passed, 0 failed
 - Size: 7 files changed, +333 / −16 lines (from c674479)
 - Hand-coding estimate: 2–3 hours; mostly the timer order and writing tests that keep the snake alive long enough to measure them
+
+## Slice 6 · Power-ups on screen
+- Date: 2026-11-24
+- My note: Everything looking good. Boosts are working correctly.
+- What changed:
+  - Power-ups drawn as rounded tiles with a color and a symbol: B (Boost, amber), S (Slow-mo, blue), − (Shrink, purple)
+  - New `src/hud.ts`: score plus the active effect's name and a progress bar for its time left; the effect keeps its space when hidden so the score never shifts
+  - Pickup flash (board tint plus a spreading ring, about 300 ms), triggered by a pure `takenPowerUp(prev, next)` with 4 tests
+  - Code was committed by hand as 1ce33fd; this commit adds the log entry and the tag
+- Problems and fixes:
+  - The first Boost color (#c97a00) was about 3:1 contrast for the small "Boost" label; darkened it to #a85f00 (about 4.5:1) before checking
+- Lesson: Give every color-coded thing a second clue (a letter, a label) and check small text against its background, not just the big shapes.
+- Plan changes: None
+- Tests: 90 passed, 0 failed
+- Size: 8 files changed, +245 / −15 lines (from 1ce33fd)
+- Hand-coding estimate: 1–2 hours; mostly canvas text placement, the HUD layout, and timing the flash
