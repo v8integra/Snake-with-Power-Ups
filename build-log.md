@@ -16,3 +16,20 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 1 passed, 0 failed
 - Size: 9 files changed, +144 / −0 lines (package-lock.json left out: +1585)
 - Hand-coding estimate: 15–30 minutes; mostly scaffolding Vite and getting the TypeScript and Vitest config right
+
+## Slice 2 · Core game logic
+- Date: 2026-11-24
+- My note: Code loks good, lets continue
+- What changed:
+  - Pure `step(state, rng)` in `src/game/`: one move per tick, turn queue (max 2), edge/wall/self collision, food growth and respawn, win on a full board
+  - Seeded random generator (mulberry32) and `randomFreeCell`, which picks from a list of free cells so it never lands on a taken one
+  - Plan data model as TypeScript types, plus `createInitialState` (length 3, centered, heading right)
+  - 28 tests covering every movement rule in the plan; placeholder smoke test removed
+- Problems and fixes:
+  - The first shell command that wrote the test files failed with a quoting error (apostrophes inside the heredoc); rewrote them with the file tool, nothing lost
+  - The first deliberate-bug check of the tail test was too broad (the snake never dropped its tail, 6 tests failed); narrowed it to the collision check alone, which failed exactly the tail-follow test
+- Lesson: Break a rule on purpose to prove its test actually guards it; the tail-follow test only counts if removing the "skip the tail" check turns it red.
+- Plan changes: None
+- Tests: 28 passed, 0 failed
+- Size: 11 files changed, +422 / −8 lines
+- Hand-coding estimate: 2–3 hours; mostly the turn queue and tail-collision edge cases and writing the tests for them
