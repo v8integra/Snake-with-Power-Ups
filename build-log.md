@@ -69,3 +69,22 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 59 passed, 0 failed
 - Size: 9 files changed, +199 / −6 lines (from f129eae)
 - Hand-coding estimate: 1–2 hours; mostly choosing a fair wall layout and the rule for wall cells that are blocked
+
+## Slice 5 · Power-up logic
+- Date: 2026-11-24
+- My note: The code is looking good. Everything is clean. Game is running good.
+- What changed:
+  - `src/game/powerups.ts`: spawn after every 4th food on a free cell, expire after 40 ticks, Boost (1.5×, food 20), Slow-mo (0.6×), Shrink (−3, never below 3); a new effect replaces the old one
+  - `step()` scores food with the effect active that tick, then runs the power-up update and wall placement
+  - Speed split into `baseSpeed` (capped at 14) and `movesPerSecond` (times the effect), so Boost at the cap gives 21
+  - 27 new tests covering every power-up case in the plan, plus spawn timing, exact 50-tick effects and timers frozen while paused
+  - Code was committed by hand as c674479; this commit adds the log entry and the tag
+- Problems and fixes:
+  - Two first-draft tests (40-tick expiry, 50-tick effect) let the snake wander or run off the board; replaced with a helper that keeps a length-3 snake circling a 2x2 square
+  - Type error: an unused `pts` import left in the power-up tests after that rewrite; removed it
+  - A console error ("step.ts does not provide FOOD_POINTS") came from a hot reload between two edits while the constant moved; a full reload ran clean
+- Lesson: Pin down tick order before writing timer tests (effects count the tick they were used on; power-ups age after the pickup check), because "lasts 50 ticks" means nothing until you say which 50.
+- Plan changes: None
+- Tests: 86 passed, 0 failed
+- Size: 7 files changed, +333 / −16 lines (from c674479)
+- Hand-coding estimate: 2–3 hours; mostly the timer order and writing tests that keep the snake alive long enough to measure them
