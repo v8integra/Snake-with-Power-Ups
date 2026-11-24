@@ -121,3 +121,21 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 115 passed, 0 failed
 - Size: 11 files changed, +579 / −17 lines
 - Hand-coding estimate: 2–3 hours; mostly the broken-data handling and the dialog's focus and confirm flow
+
+## Slice 8 · Phone controls
+- Date: 2026-11-24
+- My note: Code looks clean. Yes, propse slice 8b
+- What changed:
+  - `swipeDirection` (20 px threshold, longer axis wins) with 8 tests; swipes on the board chain, so an L-shaped drag makes two turns
+  - On-screen direction pad on touch screens: turns on touch-down, still usable from the keyboard
+  - Keys, swipes and the pad share one `turn()`; the layout fits 375 px wide (board 343 px at 375×812, 319 px at 375×667) with no sideways scroll
+  - Touch hints on phones in place of the keyboard ones
+- Problems and fixes:
+  - Two CSS mistakes caught before testing: a stray `--chrome` line, and a `vh` fallback that can't work because custom properties always use their last declaration; kept `dvh` only
+  - At 375 px with 4-digit scores, "Slow-mo" wrapped onto two lines and pushed the board down; stopped the wrap and tightened narrow-screen spacing
+  - The first U-turn swipe test ran after the snake had already hit a wall; restarted and swiped in the same step
+- Lesson: Test the narrow layout with the longest real content (4-digit scores, the longest effect name), not the empty start screen; that's where it breaks.
+- Plan changes: None (phone pause proposed as 8b)
+- Tests: 123 passed, 0 failed
+- Size: 7 files changed, +226 / −9 lines
+- Hand-coding estimate: 2–3 hours; mostly pointer-event handling and fitting the board, HUD and pad on small screens

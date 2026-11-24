@@ -37,7 +37,8 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
       el.append(
         heading('Snake'),
         para('Press Enter or tap to start'),
-        para('Arrows or WASD to turn · Space or P to pause', 'hint'),
+        para('Arrows or WASD to turn · Space or P to pause', 'hint keys-only'),
+        para('Swipe on the board or use the pad to turn', 'hint touch-only'),
       )
     } else if (state.status === 'paused') {
       el.append(heading('Paused'), para('Press Space or P, or tap, to resume'))
@@ -51,7 +52,7 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
         para(`Score: ${state.score}`, 'final-score'),
         ...(newHighScore ? [para('New high score!', 'new-high')] : []),
         button,
-        para('or press Enter', 'hint'),
+        para('or press Enter', 'hint keys-only'),
       )
       button.focus()
     }

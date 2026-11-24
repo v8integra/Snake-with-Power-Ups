@@ -27,6 +27,18 @@
   --accent-text: #ffffff;
   --danger: #b3261e;
   --surface: #ffffff;
+
+  /* Height taken by everything that isn't the board: top bar, HUD, gaps and padding. */
+  --chrome: 156px;
+  /* dvh tracks the phone's visible height as its address bar slides in and out. */
+  --board-size: min(100vw - 32px, 100dvh - var(--chrome));
+}
+
+/* Touch screens also fit the direction pad (3 rows of 56px plus gaps) under the board. */
+@media (pointer: coarse) {
+  :root {
+    --chrome: calc(156px + 192px);
+  }
 }
 
 body {
@@ -54,7 +66,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  width: min(100vw - 32px, 100vh - 156px);
+  width: var(--board-size);
 }
 
 .hud-scores {
@@ -71,7 +83,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  width: min(100vw - 32px, 100vh - 156px);
+  width: var(--board-size);
 }
 
 .hud-score {
@@ -95,6 +107,7 @@ h1 {
   min-width: 4.5em;
   text-align: right;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .effect-bar {
@@ -138,7 +151,7 @@ h1 {
 /* The board is as large as fits the screen, and always square. */
 .board-wrap {
   position: relative;
-  width: min(100vw - 32px, 100vh - 156px);
+  width: var(--board-size);
   aspect-ratio: 1;
 }
 
@@ -298,4 +311,97 @@ button:focus-visible {
 
 .confirm p {
   margin: 16px 0 0;
+}
+
+/* Direction pad: only on touch screens. */
+.dpad {
+  display: none;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  grid-template-areas:
+    '. up .'
+    'left . right'
+    '. down .';
+  gap: 6px;
+}
+
+.dpad button {
+  padding: 0;
+  font-size: 1.25rem;
+  color: var(--accent);
+  background: var(--surface);
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dpad button:active {
+  background: var(--board-alt);
+  border-color: var(--accent);
+}
+
+.dpad-up {
+  grid-area: up;
+}
+.dpad-left {
+  grid-area: left;
+}
+.dpad-right {
+  grid-area: right;
+}
+.dpad-down {
+  grid-area: down;
+}
+
+/* Swipes on the board must not scroll or zoom the page. */
+.board-wrap {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-only {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .dpad {
+    display: grid;
+  }
+  .touch-only {
+    display: block;
+  }
+  .keys-only {
+    display: none;
+  }
+}
+
+/* Narrow phones (375px wide): tighten the header and HUD so nothing wraps or overflows. */
+@media (max-width: 420px) {
+  h1 {
+    font-size: 1.05rem;
+  }
+  .hud {
+    gap: 8px;
+  }
+  .hud-scores {
+    gap: 10px;
+  }
+  .hud-score {
+    gap: 5px;
+  }
+  .hud-label {
+    font-size: 0.8rem;
+  }
+  .hud-value {
+    font-size: 1.25rem;
+  }
+  .effect-name {
+    min-width: 0;
+  }
+  .effect-bar {
+    width: 64px;
+  }
 }

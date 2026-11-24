@@ -11,6 +11,7 @@ import {
   step,
   takenPowerUp,
   togglePause,
+  type Direction,
   type GameState,
   type HighScore,
   type Point,
@@ -23,6 +24,7 @@ import { createOverlay } from './overlay'
 import { drawGame, fitCanvas, readPalette, type Flash } from './render'
 import { createScoresPanel } from './scoresPanel'
 import { browserStore, loadHighScores, saveHighScores } from './storage'
+import { attachDirectionPad, attachSwipe } from './touch'
 
 /** How long the pickup flash lasts. Visual only, so wall-clock time is fine here. */
 const FLASH_MS = 300
@@ -120,11 +122,17 @@ function newGame(): void {
   setState(startGame(createInitialState(rng)))
 }
 
+/** Turns from any input (keys, swipe, pad) only count while playing and the panel is closed. */
+function turn(dir: Direction): void {
+  if (!scoresPanel.isOpen() && state.status === 'playing') setState(queueTurn(state, dir))
+}
+
+attachSwipe(byId('board-wrap'), turn)
+attachDirectionPad(byId('dpad'), turn)
+
 // Game keys do nothing while the high-scores panel is open.
 attachKeyboard({
-  turn: (dir) => {
-    if (!scoresPanel.isOpen() && state.status === 'playing') setState(queueTurn(state, dir))
-  },
+  turn,
   pause: () => {
     if (!scoresPanel.isOpen()) setState(togglePause(state))
   },
