@@ -1,4 +1,4 @@
-import type { Direction } from './game'
+import type { Direction, GameStatus } from './game'
 import { swipeDirection } from './swipe'
 
 /**
@@ -26,6 +26,18 @@ export function attachSwipe(area: HTMLElement, turn: (dir: Direction) => void): 
   }
   area.addEventListener('pointerup', end)
   area.addEventListener('pointercancel', end)
+}
+
+/**
+ * The pad's Pause button (phones have no Space or P key). Its label says what it will do
+ * ("Pause" or "Resume"), and it's disabled when there's nothing to pause.
+ * It isn't marked aria-pressed: a toggle whose label also changes reads as "Resume, pressed".
+ */
+export function showPauseButton(button: HTMLButtonElement, status: GameStatus): void {
+  const paused = status === 'paused'
+  button.textContent = paused ? 'Resume' : 'Pause'
+  button.dataset.paused = String(paused)
+  button.disabled = status !== 'playing' && !paused
 }
 
 /**

@@ -320,7 +320,7 @@ button:focus-visible {
   grid-template-rows: repeat(3, 56px);
   grid-template-areas:
     '. up .'
-    'left . right'
+    'left pause right'
     '. down .';
   gap: 6px;
 }
@@ -353,6 +353,17 @@ button:focus-visible {
 }
 .dpad-down {
   grid-area: down;
+}
+.dpad .dpad-pause {
+  grid-area: pause;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 50%;
+}
+.dpad .dpad-pause[data-paused='true'] {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 /* Swipes on the board must not scroll or zoom the page. */

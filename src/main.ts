@@ -24,7 +24,7 @@ import { createOverlay } from './overlay'
 import { drawGame, fitCanvas, readPalette, type Flash } from './render'
 import { createScoresPanel } from './scoresPanel'
 import { browserStore, loadHighScores, saveHighScores } from './storage'
-import { attachDirectionPad, attachSwipe } from './touch'
+import { attachDirectionPad, attachSwipe, showPauseButton } from './touch'
 
 /** How long the pickup flash lasts. Visual only, so wall-clock time is fine here. */
 const FLASH_MS = 300
@@ -72,6 +72,8 @@ const updateOverlay = createOverlay(byId('overlay'), {
   playAgain: newGame,
 })
 
+const pauseButton = byIdAs('dpad-pause', HTMLButtonElement)
+
 const scoresPanel = createScoresPanel(
   {
     dialog: byIdAs('scores-panel', HTMLDialogElement),
@@ -104,6 +106,7 @@ function setState(next: GameState): void {
   if (ended) recordFinishedGame()
   updateOverlay(state, madeHighScores)
   updateHud(state, bestScore(highScores))
+  showPauseButton(pauseButton, state.status)
 }
 
 /** Scores are only saved here, when a game ends (game over or a win). */
@@ -129,6 +132,9 @@ function turn(dir: Direction): void {
 
 attachSwipe(byId('board-wrap'), turn)
 attachDirectionPad(byId('dpad'), turn)
+pauseButton.addEventListener('click', () => {
+  if (!scoresPanel.isOpen()) setState(togglePause(state))
+})
 
 // Game keys do nothing while the high-scores panel is open.
 attachKeyboard({

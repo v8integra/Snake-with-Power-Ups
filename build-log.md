@@ -139,3 +139,21 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 123 passed, 0 failed
 - Size: 7 files changed, +226 / −9 lines
 - Hand-coding estimate: 2–3 hours; mostly pointer-event handling and fitting the board, HUD and pad on small screens
+
+## Slice 8b · Phone pause button
+- Date: 2026-11-24
+- My note: Everything looks good. Checked mobile size, game runs good. Pause button works correctly
+- What changed:
+  - A Pause/Resume button in the center of the phone direction pad; disabled on Ready, Game over and Win
+  - Tapping it toggles pause like Space/P; ignored while the high-scores panel is open
+  - Plan updated: the phone line in Screens, and the 8b line under "Changes during the build"
+- Problems and fixes:
+  - Proposed marking the button aria-pressed, then dropped it: a toggle that also changes its label reads as "Resume, pressed"; the changing label alone says what a tap will do
+  - The first tap in the browser check was refused because the tool needed a fresh screenshot after the viewport change
+- Lesson: When an input method is missing (no Space key on a phone), every action bound to it needs a second way in; check each key binding against each device.
+- Plan changes:
+  - Screens → Game: "On phones: an on-screen direction pad below the board, with a Pause button beside it (it also resumes). Swiping on the board also turns the snake."
+  - Changes during the build: "8b · Phone pause button: a Pause/Resume button beside the direction pad on touch screens, since phones have no Space or P key, from my slice 8 note"
+- Tests: 123 passed, 0 failed
+- Size: 5 files changed, +35 / −4 lines
+- Hand-coding estimate: 20–40 minutes; a button, its states and a little grid CSS
