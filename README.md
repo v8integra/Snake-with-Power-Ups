@@ -6,6 +6,8 @@ A classic snake game for the browser, with three power-ups, inner walls that sho
 
 Built as build-along #2 with Claude Code, one slice at a time. [`build-log.md`](build-log.md) has the notes from each slice, and [`snake-with-power-ups-plan.md`](snake-with-power-ups-plan.md) is the plan it was built from.
 
+**Documentation:** [`docs/ENGINEERING.md`](docs/ENGINEERING.md) explains how the code fits together, what every module and function does, the exact rule order, the design decisions, a change history by slice, and a troubleshooting guide. It's detailed enough to rebuild the app from.
+
 ## How to play
 
 Steer the snake to the food. Each food makes it one longer. Don't hit the edge, a wall, or yourself.
@@ -78,6 +80,8 @@ One-time setup:
 The build uses relative paths (`base: './'` in `vite.config.ts`), so it works under any repo name without changes.
 
 ## How it's built
+
+A short summary; the full engineering document is [`docs/ENGINEERING.md`](docs/ENGINEERING.md).
 
 - Vite + TypeScript (strict), no UI framework. The board is a `<canvas>`; menus and scores are plain HTML.
 - **`src/game/`** holds every game rule as a pure function, with tests. `step(state, rng)` advances one move. Time is counted in moves (ticks), never seconds, so pausing can't eat a power-up's time, and randomness comes from a seeded generator, so tests are repeatable.

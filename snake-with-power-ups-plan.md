@@ -126,7 +126,7 @@ Test cases: spawning never lands on an occupied cell (seeded, many runs); win wh
 7. **High scores.** `src/storage.ts` with safe handling of missing or broken data, the high-score panel, and "New high score!", with tests.
 8. **Phone controls.** Swipe on the board, the on-screen direction pad, and a layout that fits a 375 px wide screen.
 9. **Polish.** Dark mode, auto-pause when the tab is hidden, screen reader announcements for score changes and game over, keyboard focus, and "reduce motion" respected.
-10. **Ship.** A production build, deploy steps for GitHub Pages, and a README with how to play and how to run it.
+10. **Ship.** A production build, deploy steps for GitHub Pages, and a README with how to play and how to run it. Plus an engineering document, `docs/ENGINEERING.md`, that explains how the code fits together and what each module and function does, in enough detail to rebuild the app from it.
 
 ## Definition of done
 
@@ -186,3 +186,4 @@ Test cases: spawning never lands on an occupied cell (seeded, many runs); win wh
 - 8b · Phone pause button: a Pause/Resume button beside the direction pad on touch screens, since phones have no Space or P key, from my slice 8 note
 - 10b · Phone Paused hint: on touch screens the Paused overlay says "Tap the board or press Resume to continue" instead of "Press Space or P, or tap, to resume", from my slice 10 note
 - 10c · Phone Ready hint: on touch screens the Ready overlay says "Tap to start" instead of "Press Enter or tap to start", since most phones have no Enter key, from my slice 10 note
+- 10d · Engineering document: a `docs/` folder at the repo root with `ENGINEERING.md`, explaining the architecture, every module and exported function, the rules and their tick order, and the design decisions, so a reader can recreate the app, plus a change history mapping each slice tag to what it changed so breaks can be traced alongside the git commits; linked from the README, from my slice 10 note
