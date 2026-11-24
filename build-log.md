@@ -50,3 +50,22 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 42 passed, 0 failed
 - Size: 11 files changed, +469 / −16 lines
 - Hand-coding estimate: 2–3 hours; mostly the game loop, high-DPI canvas sizing, and getting Enter/Space right on focused buttons
+
+## Slice 4 · Scoring and difficulty
+- Date: 2026-11-24
+- My note: Everything looks good. Lets continue
+- What changed:
+  - Score shown above the board
+  - `movesPerSecond`: 7, +0.5 every 5 food, capped at 14; the game loop now uses it
+  - Inner walls (four corner brackets, 32 cells) placed once the score reaches 100; cells under the snake, food or a power-up wait for a later tick, with no new state field
+  - 17 new tests for speed steps, the cap, walls at exactly 100, jumping past 100, and blocked cells waiting
+  - Code was committed by hand as f129eae; this commit adds the log entry and the tag
+- Problems and fixes:
+  - The first browser preview of the wall layout was drawn over by the running game loop within a frame; drew it on a separate temporary canvas instead
+  - A `Missing #score` console error came from a hot reload of main.ts that ran before the index.html edit landed; a full reload showed no new error
+  - The kickoff said the layout had 36 cells; it has 32 (each bracket's arms share the corner cell)
+- Lesson: Derive state you can already compute (walls are switched on once score >= 100, and score never goes down) instead of adding a field that can get out of sync.
+- Plan changes: None
+- Tests: 59 passed, 0 failed
+- Size: 9 files changed, +199 / −6 lines (from f129eae)
+- Hand-coding estimate: 1–2 hours; mostly choosing a fair wall layout and the rule for wall cells that are blocked
