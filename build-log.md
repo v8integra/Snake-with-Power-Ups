@@ -33,3 +33,20 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 28 passed, 0 failed
 - Size: 11 files changed, +422 / −8 lines
 - Hand-coding estimate: 2–3 hours; mostly the turn queue and tail-collision edge cases and writing the tests for them
+
+## Slice 3 · Playable game
+- Date: 2026-11-24
+- My note: Everything looks good. Game has correct controls
+- What changed:
+  - Fixed-timestep clock (`src/loop.ts`) so speed doesn't depend on refresh rate; long gaps capped at 250 ms
+  - Canvas renderer with high-DPI sizing and colors from CSS variables
+  - Keyboard controls (arrows/WASD, Space/P, Enter) and Ready/Paused/Game over/Win overlays; tap to start or resume
+  - Pure `startGame`/`togglePause` rules with tests, including "pausing changes nothing"
+- Problems and fixes:
+  - The first draft of the loop test counted ticks over exactly 1 s, right on a tick boundary where float rounding could give 6; changed it to 1.1 s before running
+  - Two edits were refused because the files had been written by shell commands and not read yet; read them first, nothing broke
+- Lesson: Count game time in ticks fed by a fixed-timestep clock, and test the clock at several refresh rates; that's what keeps a 144 Hz monitor from playing a faster game.
+- Plan changes: None
+- Tests: 42 passed, 0 failed
+- Size: 11 files changed, +469 / −16 lines
+- Hand-coding estimate: 2–3 hours; mostly the game loop, high-DPI canvas sizing, and getting Enter/Space right on focused buttons

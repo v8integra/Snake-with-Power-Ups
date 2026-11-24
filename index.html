@@ -9,7 +9,10 @@
   <body>
     <main class="app">
       <h1>Snake With Power-Ups</h1>
-      <canvas id="board" aria-label="Snake game board"></canvas>
+      <div class="board-wrap">
+        <canvas id="board" aria-label="Snake game board"></canvas>
+        <div id="overlay" class="overlay" hidden></div>
+      </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

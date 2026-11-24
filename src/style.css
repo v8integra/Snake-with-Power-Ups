@@ -4,11 +4,30 @@
   box-sizing: border-box;
 }
 
+:root {
+  --page: #f4f4f0;
+  --text: #1c1c1c;
+  --muted: #5a5a55;
+  --edge: #c8c8c0;
+
+  /* Board colors, read by the canvas renderer. */
+  --board: #ffffff;
+  --board-alt: #f3f5ef;
+  --snake: #3f9142;
+  --snake-head: #1f5e23;
+  --food: #d43f3a;
+  --wall: #5b5b66;
+
+  --overlay-bg: rgb(255 255 255 / 0.86);
+  --accent: #1f5e23;
+  --accent-text: #ffffff;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  background: #f4f4f0;
-  color: #1c1c1c;
+  background: var(--page);
+  color: var(--text);
 }
 
 .app {
@@ -24,10 +43,75 @@ h1 {
   font-size: 1.25rem;
 }
 
+/* The board is as large as fits the screen, and always square. */
+.board-wrap {
+  position: relative;
+  width: min(100vw - 32px, 100vh - 96px);
+  aspect-ratio: 1;
+}
+
 #board {
   display: block;
-  width: min(90vw, 70vh, 600px);
-  aspect-ratio: 1;
-  background: #ffffff;
-  border: 1px solid #c8c8c0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--edge);
+  touch-action: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+  background: var(--overlay-bg);
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay[data-status='ready'],
+.overlay[data-status='paused'] {
+  cursor: pointer;
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.overlay p {
+  margin: 0;
+}
+
+.overlay .final-score {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.overlay .hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.overlay button {
+  margin-top: 8px;
+  padding: 10px 20px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.overlay button:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 3px;
 }
