@@ -8,11 +8,20 @@
   </head>
   <body>
     <main class="app">
-      <h1>Snake With Power-Ups</h1>
+      <header class="topbar">
+        <h1>Snake With Power-Ups</h1>
+        <button id="open-scores" type="button" class="secondary">High scores</button>
+      </header>
       <div class="hud">
-        <div class="hud-score">
-          <span class="hud-label">Score</span>
-          <span id="score" class="hud-value">0</span>
+        <div class="hud-scores">
+          <div class="hud-score">
+            <span class="hud-label">Score</span>
+            <span id="score" class="hud-value">0</span>
+          </div>
+          <div class="hud-score">
+            <span class="hud-label">Best</span>
+            <span id="best" class="hud-value hud-best">0</span>
+          </div>
         </div>
         <div id="effect" class="hud-effect" hidden>
           <span id="effect-name" class="effect-name"></span>
@@ -33,6 +42,33 @@
         <div id="overlay" class="overlay" hidden></div>
       </div>
     </main>
+
+    <dialog id="scores-panel" class="panel" aria-labelledby="scores-title">
+      <h2 id="scores-title">High scores</h2>
+      <table class="scores-table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Score</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody id="scores-body"></tbody>
+      </table>
+      <p id="scores-empty" class="scores-empty">No scores yet. Play a game!</p>
+      <div id="panel-actions" class="panel-actions">
+        <button id="clear-scores" type="button" class="secondary">Clear scores</button>
+        <button id="close-scores" type="button">Close</button>
+      </div>
+      <div id="confirm-clear" class="confirm" hidden>
+        <p>Clear all high scores? This can't be undone.</p>
+        <div class="panel-actions">
+          <button id="confirm-no" type="button" class="secondary">Cancel</button>
+          <button id="confirm-yes" type="button" class="danger">Clear</button>
+        </div>
+      </div>
+    </dialog>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

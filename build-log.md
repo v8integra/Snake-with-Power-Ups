@@ -104,3 +104,20 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 90 passed, 0 failed
 - Size: 8 files changed, +245 / −15 lines (from 1ce33fd)
 - Hand-coding estimate: 1–2 hours; mostly canvas text placement, the HUD layout, and timing the flash
+
+## Slice 7 · High scores
+- Date: 2026-11-24
+- My note: Everything looks good. High score is showing. Delete works correctly.
+- What changed:
+  - `recordScore` in `src/game/highscores.ts`: top 5, ties go below, 0 never saved; scores only recorded when a game ends
+  - `src/storage.ts`: one `snake:v1` key in a versioned format; missing data gives an empty table, broken data is copied to `snake:v1:backup` first, and blocked storage never throws
+  - High-scores panel (modal dialog) with rank, score and date, and a Clear button with a confirm step; opening it mid-game pauses the game
+  - "New high score!" on Game over and "Best" next to Score; 25 new tests with a fake localStorage
+- Problems and fixes:
+  - A console error (`Cannot set properties of undefined`) came from a hot reload between the hud.ts and main.ts edits; a full reload ran clean
+  - A saved button reference went stale after a page reload mid-check; clicked the button from the page instead
+- Lesson: Pass storage in as a parameter so tests can hand it broken, missing and blocked data; that's where save code actually fails.
+- Plan changes: None
+- Tests: 115 passed, 0 failed
+- Size: 11 files changed, +579 / −17 lines
+- Hand-coding estimate: 2–3 hours; mostly the broken-data handling and the dialog's focus and confirm flow

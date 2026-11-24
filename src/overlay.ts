@@ -20,7 +20,8 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
     else if (shown === 'paused') handlers.resume()
   })
 
-  return function update(state: GameState): void {
+  /** `newHighScore` is only read when the game has just ended. */
+  return function update(state: GameState, newHighScore = false): void {
     if (state.status === shown) return
     shown = state.status
     el.replaceChildren()
@@ -48,6 +49,7 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
       el.append(
         heading(state.status === 'won' ? 'You win!' : 'Game over'),
         para(`Score: ${state.score}`, 'final-score'),
+        ...(newHighScore ? [para('New high score!', 'new-high')] : []),
         button,
         para('or press Enter', 'hint'),
       )

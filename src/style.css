@@ -25,6 +25,8 @@
   --overlay-bg: rgb(255 255 255 / 0.86);
   --accent: #1f5e23;
   --accent-text: #ffffff;
+  --danger: #b3261e;
+  --surface: #ffffff;
 }
 
 body {
@@ -47,12 +49,29 @@ h1 {
   font-size: 1.25rem;
 }
 
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100vw - 32px, 100vh - 156px);
+}
+
+.hud-scores {
+  display: flex;
+  gap: 20px;
+}
+
+.hud-best {
+  color: var(--muted);
+}
+
 .hud {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  width: min(100vw - 32px, 100vh - 140px);
+  width: min(100vw - 32px, 100vh - 156px);
 }
 
 .hud-score {
@@ -119,7 +138,7 @@ h1 {
 /* The board is as large as fits the screen, and always square. */
 .board-wrap {
   position: relative;
-  width: min(100vw - 32px, 100vh - 140px);
+  width: min(100vw - 32px, 100vh - 156px);
   aspect-ratio: 1;
 }
 
@@ -172,19 +191,111 @@ h1 {
   font-size: 0.9rem;
 }
 
-.overlay button {
-  margin-top: 8px;
+.overlay .new-high {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Buttons */
+button {
   padding: 10px 20px;
   font: inherit;
   font-weight: 600;
   color: var(--accent-text);
   background: var(--accent);
-  border: none;
+  border: 2px solid var(--accent);
   border-radius: 8px;
   cursor: pointer;
 }
 
-.overlay button:focus-visible {
+button.secondary {
+  color: var(--accent);
+  background: transparent;
+}
+
+button.danger {
+  color: #ffffff;
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
   outline: 3px solid var(--text);
   outline-offset: 3px;
+}
+
+.topbar button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.overlay button {
+  margin-top: 8px;
+}
+
+/* High-scores panel */
+.panel {
+  width: min(100vw - 32px, 360px);
+  padding: 20px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+}
+
+.panel::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+}
+
+.scores-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.scores-table th,
+.scores-table td {
+  padding: 6px 4px;
+  text-align: left;
+  border-bottom: 1px solid var(--edge);
+}
+
+.scores-table th {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.scores-table td:nth-child(2) {
+  font-weight: 700;
+}
+
+.scores-empty {
+  color: var(--muted);
+}
+
+.panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.panel-actions[hidden],
+.confirm[hidden] {
+  display: none;
+}
+
+.confirm p {
+  margin: 16px 0 0;
 }

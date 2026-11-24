@@ -4,18 +4,25 @@ const EFFECT_NAME = { boost: 'Boost', slowmo: 'Slow-mo' } as const
 
 export type HudElements = {
   score: HTMLElement
+  best: HTMLElement
   effect: HTMLElement
   effectName: HTMLElement
   effectBar: HTMLElement
   effectFill: HTMLElement
 }
 
-/** The strip above the board: score, plus the active effect with a bar for its time left. */
+/** The strip above the board: score, best score, plus the active effect with a bar for its time left. */
 export function createHud(el: HudElements) {
   let lastScore = -1
+  let lastBest = -1
   let lastEffect = ''
 
-  return function update(state: GameState): void {
+  return function update(state: GameState, best: number): void {
+    if (best !== lastBest) {
+      lastBest = best
+      el.best.textContent = String(best)
+    }
+
     if (state.score !== lastScore) {
       lastScore = state.score
       el.score.textContent = String(state.score)
