@@ -2,6 +2,7 @@ import './style.css'
 import {
   createInitialState,
   createRng,
+  movesPerSecond,
   queueTurn,
   startGame,
   step,
@@ -13,9 +14,6 @@ import { consumeTime } from './loop'
 import { createOverlay } from './overlay'
 import { drawGame, fitCanvas, readPalette } from './render'
 
-/** Moves per second. Fixed for now; the speed-up arrives in slice 4. */
-const MOVES_PER_SECOND = 7
-
 function must<T>(value: T | null, what: string): T {
   if (value === null) throw new Error(`Missing ${what}`)
   return value
@@ -23,6 +21,7 @@ function must<T>(value: T | null, what: string): T {
 
 const canvas = must(document.querySelector<HTMLCanvasElement>('#board'), '#board')
 const overlayEl = must(document.querySelector<HTMLElement>('#overlay'), '#overlay')
+const scoreEl = must(document.querySelector<HTMLElement>('#score'), '#score')
 const ctx = must(canvas.getContext('2d'), '2D canvas support')
 const palette = readPalette(canvas)
 
@@ -42,6 +41,8 @@ function setState(next: GameState): void {
   if (next.status !== state.status) accMs = 0 // a fresh start or resume never "catches up"
   state = next
   updateOverlay(state)
+  const score = String(state.score)
+  if (scoreEl.textContent !== score) scoreEl.textContent = score
 }
 
 /** A fresh game that starts straight away. */
@@ -65,7 +66,8 @@ function frame(now: number): void {
   lastFrame = now
 
   if (state.status === 'playing') {
-    const clock = consumeTime(accMs, elapsed, 1000 / MOVES_PER_SECOND)
+    // The speed is read before this frame's ticks; a speed-up starts on the next frame.
+    const clock = consumeTime(accMs, elapsed, 1000 / movesPerSecond(state))
     let next = state
     for (let i = 0; i < clock.ticks && next.status === 'playing'; i++) next = step(next, rng)
     setState(next)
@@ -77,5 +79,5 @@ function frame(now: number): void {
   requestAnimationFrame(frame)
 }
 
-updateOverlay(state)
+setState(state)
 requestAnimationFrame(frame)

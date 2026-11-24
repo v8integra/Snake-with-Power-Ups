@@ -43,10 +43,27 @@ h1 {
   font-size: 1.25rem;
 }
 
+.hud {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hud-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.hud-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 /* The board is as large as fits the screen, and always square. */
 .board-wrap {
   position: relative;
-  width: min(100vw - 32px, 100vh - 96px);
+  width: min(100vw - 32px, 100vh - 140px);
   aspect-ratio: 1;
 }
 

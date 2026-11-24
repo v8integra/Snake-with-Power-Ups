@@ -1,5 +1,6 @@
 import { containsPoint, isInside, movePoint, randomFreeCell, samePoint } from './grid'
 import type { GameState, Point, Rng } from './types'
+import { placeWalls } from './walls'
 
 export const FOOD_POINTS = 10
 
@@ -37,6 +38,9 @@ export function step(state: GameState, rng: Rng): GameState {
     const food = randomFreeCell(rng, occupied)
     next = food ? { ...next, food } : { ...next, status: 'won' }
   }
+
+  // Walls come in on the tick the score first reaches 100, and blocked cells fill in later ticks.
+  if (next.status === 'playing') next = placeWalls(next)
 
   return next
 }
