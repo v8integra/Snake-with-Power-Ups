@@ -192,3 +192,18 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 127 passed, 0 failed
 - Size: 2 files changed, +135 / −0 lines
 - Hand-coding estimate: 30–60 minutes; mostly the workflow and writing the README
+
+## Slice 10b · Phone Paused hint
+- Date: 2026-11-24
+- My note: Removal of press p when paused on mobile removed. Adding change to remove push enter as well for mobile
+- What changed:
+  - The Paused overlay has a keyboard line ("Press Space or P, or tap, to resume") and a touch line ("Tap the board or press Resume to continue"); CSS shows only the one that fits the device
+  - Plan updated: the phone line in Screens, and the 10b line under "Changes during the build"
+- Problems and fixes: None
+- Lesson: After adding a new input (the pad's Resume button), reread every on-screen hint; old wording that names keys turns into wrong instructions on devices without them.
+- Plan changes:
+  - Screens → Game, phone line: added "The Paused overlay says "Tap the board or press Resume to continue" instead of naming keys."
+  - Changes during the build: "10b · Phone Paused hint: on touch screens the Paused overlay says "Tap the board or press Resume to continue" instead of "Press Space or P, or tap, to resume", from my slice 10 note"
+- Tests: 127 passed, 0 failed
+- Size: 2 files changed, +7 / −2 lines
+- Hand-coding estimate: 5–10 minutes; one overlay line and a plan edit

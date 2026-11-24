@@ -41,7 +41,11 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
         para('Swipe on the board or use the pad to turn', 'hint touch-only'),
       )
     } else if (state.status === 'paused') {
-      el.append(heading('Paused'), para('Press Space or P, or tap, to resume'))
+      el.append(
+        heading('Paused'),
+        para('Press Space or P, or tap, to resume', 'keys-only'),
+        para('Tap the board or press Resume to continue', 'touch-only'),
+      )
     } else {
       const button = document.createElement('button')
       button.type = 'button'

@@ -111,7 +111,7 @@ Test cases: spawning never lands on an occupied cell (seeded, many runs); win wh
    - The square board, as large as fits the screen, sharp on high-density displays.
    - Above it: the score, the best score, and the active effect with a bar showing its time left.
    - Overlays on the board for Ready ("Press Enter or tap to start"), Paused and Game over (score, "New high score!" when it is one, and "Play again").
-   - On phones: an on-screen direction pad below the board, with a Pause button beside it (it also resumes). Swiping on the board also turns the snake.
+   - On phones: an on-screen direction pad below the board, with a Pause button beside it (it also resumes). Swiping on the board also turns the snake. The Paused overlay says "Tap the board or press Resume to continue" instead of naming keys.
    - Each power-up has its own color **and** a symbol (B for Boost, S for Slow-mo, − for Shrink), so color isn't the only clue.
 2. **High scores** (a panel opened from the game screen): the top 5 with dates, and a button to clear them (with a confirm step).
 
@@ -184,3 +184,4 @@ Test cases: spawning never lands on an occupied cell (seeded, many runs); win wh
 
 <!-- One line each: `- Nb · <title>: <what changed>, from my slice N note` -->
 - 8b · Phone pause button: a Pause/Resume button beside the direction pad on touch screens, since phones have no Space or P key, from my slice 8 note
+- 10b · Phone Paused hint: on touch screens the Paused overlay says "Tap the board or press Resume to continue" instead of "Press Space or P, or tap, to resume", from my slice 10 note
