@@ -176,3 +176,19 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 127 passed, 0 failed
 - Size: 5 files changed, +137 / −6 lines
 - Hand-coding estimate: 1.5–2.5 hours; mostly the dark palette, live-region timing, and tracking down the focus bug
+
+## Slice 10 · Ship
+- Date: 2026-11-24
+- My note: Everything looks great. Code is clean, app works good.
+- What changed:
+  - GitHub Actions workflow (`.github/workflows/deploy.yml`): test, build and publish to GitHub Pages on every push to `main`
+  - README: how to play (controls, rules, power-ups, high scores), how to run, test and build, and the one-time Pages setup
+  - Production build checked by serving it under `/Snake-with-Power-Ups/`, the same sub-path Pages uses; definition of done checked against it
+- Problems and fixes:
+  - The first test server (Python's http.server) sent the JS as `text/plain` because it takes file types from the Windows registry, so the page didn't run; switched to `vite preview --base=/Snake-with-Power-Ups/`, which served it correctly
+  - Not verified: 60 fps, because the browser pane was hidden while testing, which slows its frame rate
+- Lesson: Test the built files under the real deploy path, not just the dev server; that's where base paths and file types go wrong.
+- Plan changes: None
+- Tests: 127 passed, 0 failed
+- Size: 2 files changed, +135 / −0 lines
+- Hand-coding estimate: 30–60 minutes; mostly the workflow and writing the README
