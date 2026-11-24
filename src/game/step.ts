@@ -1,8 +1,7 @@
 import { containsPoint, isInside, movePoint, randomFreeCell, samePoint } from './grid'
+import { foodPoints, updatePowerUps } from './powerups'
 import type { GameState, Point, Rng } from './types'
 import { placeWalls } from './walls'
-
-export const FOOD_POINTS = 10
 
 /** Advances the game by one tick (one snake move). Does nothing unless the game is playing. */
 export function step(state: GameState, rng: Rng): GameState {
@@ -33,14 +32,16 @@ export function step(state: GameState, rng: Rng): GameState {
   let next: GameState = { ...state, snake, direction, queuedTurns: restTurns, growPending, tick }
 
   if (eats) {
-    next = { ...next, score: next.score + FOOD_POINTS, foodEaten: next.foodEaten + 1 }
+    // Points use the effect that was active for this tick (Boost doubles them).
+    next = { ...next, score: next.score + foodPoints(state.effect), foodEaten: next.foodEaten + 1 }
     const occupied = [...snake, ...next.walls, ...(next.powerUp ? [next.powerUp.at] : [])]
     const food = randomFreeCell(rng, occupied)
-    next = food ? { ...next, food } : { ...next, status: 'won' }
+    if (!food) return { ...next, status: 'won' }
+    next = { ...next, food }
   }
 
-  // Walls come in on the tick the score first reaches 100, and blocked cells fill in later ticks.
-  if (next.status === 'playing') next = placeWalls(next)
+  next = updatePowerUps(next, eats, rng)
 
-  return next
+  // Walls come in on the tick the score first reaches 100, and blocked cells fill in later ticks.
+  return placeWalls(next)
 }
