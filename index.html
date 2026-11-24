@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div id="board-wrap" class="board-wrap">
+      <div id="board-wrap" class="board-wrap" tabindex="-1">
         <canvas id="board" aria-label="Snake game board"></canvas>
         <div id="overlay" class="overlay" hidden></div>
       </div>
@@ -49,6 +49,8 @@
         <button type="button" class="dpad-down" data-dir="down" aria-label="Down">▼</button>
       </div>
     </main>
+
+    <div id="announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <dialog id="scores-panel" class="panel" aria-labelledby="scores-title">
       <h2 id="scores-title">High scores</h2>

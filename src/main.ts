@@ -1,4 +1,5 @@
 import './style.css'
+import { createAnnouncer, endMessage, scoreMessage } from './announce'
 import {
   bestScore,
   createInitialState,
@@ -42,7 +43,15 @@ const byIdAs = <T extends HTMLElement>(id: string, type: new () => T): T => {
 
 const canvas = must(document.querySelector<HTMLCanvasElement>('#board'), '#board')
 const ctx = must(canvas.getContext('2d'), '2D canvas support')
-const palette = readPalette(canvas)
+let palette = readPalette(canvas)
+
+// Dark mode: CSS swaps the colors; the canvas re-reads them when the system setting changes.
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  palette = readPalette(canvas)
+})
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)')
+const boardWrap = byId('board-wrap')
+const announce = createAnnouncer(byId('announcer'))
 
 // The seed is the only wall-clock value, and it's used once, outside the game logic.
 const rng = createRng(Date.now())
@@ -100,10 +109,21 @@ byId('open-scores').addEventListener('click', () => {
 })
 
 function setState(next: GameState): void {
-  const ended = next.status !== state.status && (next.status === 'over' || next.status === 'won')
-  if (next.status !== state.status) accMs = 0 // a fresh start or resume never "catches up"
+  const prev = state
+  const ended = next.status !== prev.status && (next.status === 'over' || next.status === 'won')
+  const nowPlaying = next.status === 'playing' && prev.status !== 'playing'
+  if (next.status !== prev.status) accMs = 0 // a fresh start or resume never "catches up"
   state = next
   if (ended) recordFinishedGame()
+
+  if (ended) announce(endMessage(state, madeHighScores))
+  // Only gains are read out; a new game resetting to 0 isn't news.
+  else if (state.score > prev.score) announce(scoreMessage(state.score))
+
+  // Once play starts, keys belong to the game, not to whichever button was last clicked
+  // (a focused button would take Space for itself instead of pausing).
+  if (nowPlaying && !scoresPanel.isOpen()) boardWrap.focus({ preventScroll: true })
+
   updateOverlay(state, madeHighScores)
   updateHud(state, bestScore(highScores))
   showPauseButton(pauseButton, state.status)
@@ -130,7 +150,12 @@ function turn(dir: Direction): void {
   if (!scoresPanel.isOpen() && state.status === 'playing') setState(queueTurn(state, dir))
 }
 
-attachSwipe(byId('board-wrap'), turn)
+// Leaving the tab pauses the game, so a hidden tab never plays on without you.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && state.status === 'playing') setState(togglePause(state))
+})
+
+attachSwipe(boardWrap, turn)
 attachDirectionPad(byId('dpad'), turn)
 pauseButton.addEventListener('click', () => {
   if (!scoresPanel.isOpen()) setState(togglePause(state))
@@ -161,7 +186,8 @@ function frame(now: number): void {
       const prev = next
       next = step(prev, rng)
       const taken = takenPowerUp(prev, next)
-      if (taken) flash = { ...taken, startMs: now }
+      // With "reduce motion" on, there's no flash; the effect bar still shows what changed.
+      if (taken && !reduceMotion.matches) flash = { ...taken, startMs: now }
     }
     setState(next)
     accMs = clock.accMs

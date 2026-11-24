@@ -157,3 +157,22 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 123 passed, 0 failed
 - Size: 5 files changed, +35 / −4 lines
 - Hand-coding estimate: 20–40 minutes; a button, its states and a little grid CSS
+
+## Slice 9 · Polish
+- Date: 2026-11-24
+- My note: Darkmode looks great. Also checked to make sure 0 score didn't show on high scores. It does not, this is good.
+- What changed:
+  - Dark mode from the system setting, with brighter power-up tiles and dark symbols; the canvas re-reads its colors live when the setting changes
+  - Auto-pause when the tab is hidden
+  - Screen reader announcements through a hidden live region: score gains, and game over or a win (with "New high score!")
+  - Focus moves to the board when play starts or resumes, so Space pauses instead of re-clicking the last button; no pickup flash with "reduce motion" on
+- Problems and fixes:
+  - A new game announced "Score 0" because the reset counted as a change; now only score gains are read out
+  - Announcements waited on requestAnimationFrame, which ran about 170 ms late while the browser pane was hidden; switched to a 50 ms timer
+  - The first focus test was too slow (the game ended before the clicks landed); ran the steps in one batch
+  - Not verified: "reduce motion" couldn't be emulated in the test browser
+- Lesson: Accessibility bugs hide in state changes (a reset to 0, focus left on a clicked button); test the transitions, not just the steady screens.
+- Plan changes: None
+- Tests: 127 passed, 0 failed
+- Size: 5 files changed, +137 / −6 lines
+- Hand-coding estimate: 1.5–2.5 hours; mostly the dark palette, live-region timing, and tracking down the focus bug
