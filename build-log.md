@@ -207,3 +207,18 @@ One entry per slice, added by `/checkpoint` after each slice is approved. Change
 - Tests: 127 passed, 0 failed
 - Size: 2 files changed, +7 / −2 lines
 - Hand-coding estimate: 5–10 minutes; one overlay line and a plan edit
+
+## Slice 10c · Phone Ready hint
+- Date: 2026-11-24
+- My note: Adjustments for mobile are good. Using Enter or P has been removed from mobile size
+- What changed:
+  - The Ready overlay has a keyboard line ("Press Enter or tap to start") and a touch line ("Tap to start"); with 10b, no on-screen text on a phone names a key
+  - Plan updated: the Ready wording in Screens, and the 10c line under "Changes during the build"
+- Problems and fixes: None
+- Lesson: Wording the plan pins down in quotes ("Press Enter or tap to start") still needs a check on every device; the fix belongs in the plan too, not just the code.
+- Plan changes:
+  - Screens → Game, overlays line: Ready ("Press Enter or tap to start", or just "Tap to start" on phones)
+  - Changes during the build: "10c · Phone Ready hint: on touch screens the Ready overlay says "Tap to start" instead of "Press Enter or tap to start", since most phones have no Enter key, from my slice 10 note"
+- Tests: 127 passed, 0 failed
+- Size: 2 files changed, +4 / −2 lines
+- Hand-coding estimate: 5 minutes; one overlay line and a plan edit

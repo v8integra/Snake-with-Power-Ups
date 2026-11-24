@@ -36,7 +36,8 @@ export function createOverlay(el: HTMLElement, handlers: OverlayHandlers) {
     if (state.status === 'ready') {
       el.append(
         heading('Snake'),
-        para('Press Enter or tap to start'),
+        para('Press Enter or tap to start', 'keys-only'),
+        para('Tap to start', 'touch-only'),
         para('Arrows or WASD to turn · Space or P to pause', 'hint keys-only'),
         para('Swipe on the board or use the pad to turn', 'hint touch-only'),
       )
