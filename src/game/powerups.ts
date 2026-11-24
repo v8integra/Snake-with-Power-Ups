@@ -1,5 +1,5 @@
 import { randomFreeCell, samePoint } from './grid'
-import type { GameState, PowerUpKind, Rng } from './types'
+import type { GameState, Point, PowerUpKind, Rng } from './types'
 
 export const POWERUP_EVERY_FOOD = 4
 export const POWERUP_LIFETIME_TICKS = 40
@@ -70,4 +70,11 @@ export function updatePowerUps(state: GameState, ateFood: boolean, rng: Rng): Ga
   }
 
   return next
+}
+
+/** The power-up taken between two consecutive states (one tick apart), or null if none was. */
+export function takenPowerUp(prev: GameState, next: GameState): { kind: PowerUpKind; at: Point } | null {
+  const head = next.snake[0]
+  if (!prev.powerUp || !head || next.tick === prev.tick) return null
+  return samePoint(head, prev.powerUp.at) ? { kind: prev.powerUp.kind, at: prev.powerUp.at } : null
 }

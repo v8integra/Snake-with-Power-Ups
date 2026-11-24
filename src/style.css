@@ -17,6 +17,10 @@
   --snake-head: #1f5e23;
   --food: #d43f3a;
   --wall: #5b5b66;
+  --boost: #a85f00;
+  --slowmo: #2f6fd6;
+  --shrink: #8a4fd1;
+  --powerup-text: #ffffff;
 
   --overlay-bg: rgb(255 255 255 / 0.86);
   --accent: #1f5e23;
@@ -45,8 +49,60 @@ h1 {
 
 .hud {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(100vw - 32px, 100vh - 140px);
+}
+
+.hud-score {
+  display: flex;
   align-items: baseline;
   gap: 8px;
+}
+
+/* The effect keeps its space when hidden, so the score never jumps sideways. */
+.hud-effect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-effect[hidden] {
+  visibility: hidden;
+}
+
+.effect-name {
+  min-width: 4.5em;
+  text-align: right;
+  font-weight: 700;
+}
+
+.effect-bar {
+  width: 120px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--edge);
+  overflow: hidden;
+}
+
+.effect-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.hud-effect[data-kind='boost'] .effect-name {
+  color: var(--boost);
+}
+.hud-effect[data-kind='boost'] .effect-fill {
+  background: var(--boost);
+}
+.hud-effect[data-kind='slowmo'] .effect-name {
+  color: var(--slowmo);
+}
+.hud-effect[data-kind='slowmo'] .effect-fill {
+  background: var(--slowmo);
 }
 
 .hud-label {

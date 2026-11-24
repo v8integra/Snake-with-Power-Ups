@@ -10,8 +10,23 @@
     <main class="app">
       <h1>Snake With Power-Ups</h1>
       <div class="hud">
-        <span class="hud-label">Score</span>
-        <span id="score" class="hud-value">0</span>
+        <div class="hud-score">
+          <span class="hud-label">Score</span>
+          <span id="score" class="hud-value">0</span>
+        </div>
+        <div id="effect" class="hud-effect" hidden>
+          <span id="effect-name" class="effect-name"></span>
+          <div
+            id="effect-bar"
+            class="effect-bar"
+            role="progressbar"
+            aria-label="Effect time left"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div id="effect-fill" class="effect-fill"></div>
+          </div>
+        </div>
       </div>
       <div class="board-wrap">
         <canvas id="board" aria-label="Snake game board"></canvas>

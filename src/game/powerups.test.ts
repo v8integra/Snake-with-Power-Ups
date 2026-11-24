@@ -6,6 +6,7 @@ import {
   FOOD_POINTS,
   POWERUP_LIFETIME_TICKS,
   takePowerUp,
+  takenPowerUp,
 } from './powerups'
 import { createRng } from './rng'
 import { togglePause } from './status'
@@ -211,5 +212,31 @@ describe('pausing', () => {
     )
     expect(s.effect?.ticksLeft).toBe(22)
     expect(s.powerUp?.ticksLeft).toBe(16)
+  })
+})
+
+describe('takenPowerUp (tells the screen when to flash)', () => {
+  const powerUp = { kind: 'slowmo' as const, at: { x: 11, y: 10 }, ticksLeft: 5 }
+
+  it('reports the kind and cell when the snake takes one', () => {
+    const prev = makeState({ powerUp })
+    expect(takenPowerUp(prev, step(prev, rng()))).toEqual({ kind: 'slowmo', at: { x: 11, y: 10 } })
+  })
+
+  it('reports nothing when the snake moves past it', () => {
+    const prev = makeState({ powerUp: { ...powerUp, at: farAway } })
+    expect(takenPowerUp(prev, step(prev, rng()))).toBeNull()
+  })
+
+  it('reports nothing when it expires', () => {
+    const prev = makeState({ powerUp: { ...powerUp, at: farAway, ticksLeft: 1 } })
+    const next = step(prev, rng())
+    expect(next.powerUp).toBeNull()
+    expect(takenPowerUp(prev, next)).toBeNull()
+  })
+
+  it('reports nothing when no tick happened', () => {
+    const prev = makeState({ powerUp, status: 'paused' })
+    expect(takenPowerUp(prev, step(prev, rng()))).toBeNull()
   })
 })
